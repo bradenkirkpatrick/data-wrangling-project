@@ -1,5 +1,4 @@
 DROP TABLE IF EXISTS Batting;
-
 -- ONLY select the relevant columns for batting statistics (currently includes all columns)
 CREATE TABLE Batting AS
 SELECT
@@ -24,10 +23,11 @@ SELECT
     HBP,
     SH,
     SF,
-    IBB
+    IBB,
+    -- New 'Year' column using filename extraction
+    regexp_extract(filename, '20[0-9]{2}')::INTEGER AS Year
 FROM read_csv_auto('data/20* MLB Batting Stats.csv')
-
-UNION
+UNION ALL
 
 SELECT
     Rk,
@@ -51,8 +51,7 @@ SELECT
     HBP,
     SH,
     SF,
-    IBB
+    IBB,
+    -- New 'Year' column using filename extraction
+    regexp_extract(filename, '20[0-9]{2}')::INTEGER AS Year
 FROM read_csv_auto('data/2022 MLB Batting Stats(has different columns).csv', encoding='latin-1', delim=';');
-
--- this makes the table Batting with consistent column names:
--- duckdb baseball_data.db < baseball_data.sql 

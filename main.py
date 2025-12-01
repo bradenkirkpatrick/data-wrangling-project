@@ -22,21 +22,23 @@ batting['name'] = batting['name'].str.strip()
 df = batting.merge(exit_velocity_data, how='inner', left_on=['name', 'Year'], right_on=['name', 'year'])
 
 #total bases
-df['TB'] = df['H'] + df['B'] + 2 * df['B_1'] + 3 * df['HR']
+df['TB'] = df['H'] + df['2B'] + 2 * df['3B'] + 3 * df['HR']
 
 #Bat Avg
-df['AVG'] = df['H'].divide(df['AB'], fill_value=0) #, where=df['AB'] != 0
+df['AVG'] = (df['H'] / df['AB']).round(3) #, where=df['AB'] != 0
 
 #on base
 numerator_obp = df['H'] + df['BB'] + df['HBP']
 denominator_obp = df['AB'] + df['BB'] + df['HBP'] + df['SF']
-df['OBP'] = numerator_obp.divide(denominator_obp, fill_value=0)# , where=denominator_obp != 0
+obp_calculation = numerator_obp / denominator_obp
+df['OBP'] = obp_calculation.round(3)# , where=denominator_obp != 0
 
 #slugging
-df['SLG'] = df['TB'].divide(df['AB'])# , where=df['AB'] != 0
+slugging_calculation = df['TB'] / df['AB']
+df['SLG'] = slugging_calculation.round(3)# , where=df['AB'] != 0
 
 #on base + slugging 
-df['OPS'] = df['OBP'] + df['SLG']
+df['OPS'] = (obp_calculation + slugging_calculation).round(3)
 
 df[['name', 'Year', 'AB', 'H', 'TB', 'AVG', 'OBP', 'SLG', 'OPS']].to_csv('saves/batting_stats_calculations.csv', index=False)
 

@@ -12,8 +12,8 @@ SELECT
     AB,
     R,
     H,
-    2B,
-    3B,
+    "2B",
+    "3B",
     HR,
     RBI,
     SB,
@@ -27,6 +27,7 @@ SELECT
     -- New 'Year' column using filename extraction
     regexp_extract(filename, '20[0-9]{2}')::INTEGER AS Year
 FROM read_csv_auto('data/20* MLB Batting Stats.csv')
+
 UNION ALL
 
 SELECT
@@ -40,8 +41,8 @@ SELECT
     AB,
     R,
     H,
-    2B,
-    3B,
+    "2B",
+    "3B",
     HR,
     RBI,
     SB,
@@ -54,4 +55,4 @@ SELECT
     IBB,
     -- New 'Year' column using filename extraction
     regexp_extract(filename, '20[0-9]{2}')::INTEGER AS Year
-FROM read_csv_auto('data/2022 MLB Batting Stats(has different columns).csv', encoding='latin-1', delim=';');
+FROM read_csv_auto('data/2022 MLB Player Stats - Batting.csv', encoding='latin-1', delim=';');

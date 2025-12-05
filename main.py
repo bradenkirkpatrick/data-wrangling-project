@@ -64,3 +64,4 @@ wide_batting_df = wide_batting_df.groupby('name', as_index=False).sum(numeric_on
 
 wide_batting_df.to_csv('saves/wide_batting_stats.csv')
 
+print("\nData processing complete. Files saved in 'saves' folder.")
